@@ -1,10 +1,12 @@
 import supertest from "supertest"
 
 describe("index", () => {
-  it("should pass", async () => {
-    const actual = await supertest("https://google.com")
+  describe("health-check", () => {
+    it("should return 200", async () => {
+      const actual = await supertest("http://localhost:8080")
+        .get("/health-check")
 
-    console.log(actual)
-    expect(actual).toBeTruthy()
+      expect(actual.status).toEqual(200)
+    })
   })
 })

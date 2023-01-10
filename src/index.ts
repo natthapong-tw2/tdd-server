@@ -1,1 +1,10 @@
-console.log("Hello world")
+import express from "express"
+
+const app = express()
+app.get("/health-check", (req, res) => {
+  res.status(200).send({})
+})
+
+app.listen(8080, () => {
+  console.log("server started at http://localhost:8080")
+})
