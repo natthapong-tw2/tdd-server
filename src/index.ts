@@ -5,9 +5,13 @@ app
   .get("/health-check", (req, res) => {
     res.status(200).send({})
   })
+
+app
   .get("/users", (req, res) => {
     res.status(200).send([])
   })
+
+app
   .get("/shops", (req, res) => {
     res.status(200).send([])
   })
