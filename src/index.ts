@@ -1,13 +1,5 @@
-import express, {NextFunction, Request, Response} from "express"
-
-const handleToggle = (req: Request, res: Response, next: NextFunction) => {
-  const authorization = req.header("authorization")
-  if(authorization === "abc") {
-    next()
-  } else {
-    res.status(404).send([])
-  }
-}
+import express from "express"
+import {handleToggle} from "./utils/handle-toggle"
 
 const app = express()
 app
