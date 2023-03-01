@@ -35,4 +35,23 @@ describe("index", () => {
       expect(actual.status).toEqual(200)
     })
   })
+
+  describe("POST /financial-planner", () => {
+    it("should return not found when not have access", async () => {
+      const actual = await supertest("http://localhost:8080")
+        .post("/financial-planner")
+
+      expect(actual.status)
+        .toEqual(404)
+    })
+
+    it("should return 200 when it contains authorization header", async () => {
+      const actual = await supertest("http://localhost:8080")
+        .post("/financial-planner")
+        .set({ Authorization: "abc" })
+
+      expect(actual.status)
+        .toEqual(200)
+    })
+  })
 })
