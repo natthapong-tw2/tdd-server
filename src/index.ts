@@ -5,18 +5,12 @@ app
   .get("/health-check", (req, res) => {
     res.status(200).send({})
   })
-
-app
   .get("/users", (req, res) => {
     res.status(200).send([])
   })
-
-app
   .get("/shops", (req, res) => {
     res.status(200).send([])
   })
-
-app
   .post("/financial-planner", (req, res) => {
     const authorization = req.header("authorization")
     if(authorization === "abc") {
@@ -25,7 +19,6 @@ app
       res.status(404).send([])
     }
   })
-
-app.listen(8080, () => {
-  console.log("server started at http://localhost:8080")
-})
+  .listen(8080, () => {
+    console.log("server started at http://localhost:8080")
+  })
