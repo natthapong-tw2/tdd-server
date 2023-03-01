@@ -31,5 +31,29 @@ describe("TaxCalculator", () => {
 
       expect(actual).toEqual(27500)
     })
+
+    it("should help me calculate", () => {
+      const currentMonthlyIncome = 10000
+
+      const calculateExpectSalaryFactor = (currentMonthlyIncome: number) => {
+        const providentFund = currentMonthlyIncome * 0.15
+        const currentMonthlyIncomeWithProvidentFund = currentMonthlyIncome + providentFund
+
+        const monthlyIncome = currentMonthlyIncomeWithProvidentFund * 1.3;
+        const annualIncome = monthlyIncome*12;
+        const tax = taxCalculator.withIncome(annualIncome)
+
+        return {
+          tax,
+          afterTax: annualIncome - tax,
+          monthlyIncome,
+          annualIncome,
+          currentMonthlyIncomeWithProvidentFund
+        };
+      }
+
+      const result = calculateExpectSalaryFactor(currentMonthlyIncome)
+      console.log(result)
+    })
   })
 })
