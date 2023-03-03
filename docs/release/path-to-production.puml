@@ -1,0 +1,29 @@
+@startuml
+
+state todo as "Todo"
+
+
+state inProgress as "In Progress" {
+  state defineTests as "Define Acceptance Tests"
+  defineTests: QA & Dev Pair work together to define skeleton of Acceptance Tests
+
+  state development as "Development"
+  development: Dev pair work on the problems
+
+  state testing as "Testing"
+  testing: QA verify all automation passes
+  testing: QA run exploratory tests
+
+  [*] --> defineTests
+  defineTests --> development: Dev pair implement solution to make the tests passed
+  development --> testing: All the tests passes\nDeployed to production with feature toggled off\nDev Pairs decided to get feedbacks from QA
+  testing --> [*]: PO verified test cases\nProduction Verified\nFeature toggle on
+}
+
+state done as "Done"
+
+[*] -> todo
+todo -> inProgress
+inProgress -> done
+
+@enduml
