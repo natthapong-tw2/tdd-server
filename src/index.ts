@@ -19,11 +19,15 @@ app
     }
   )
   .get("/feature-toggle", (req, res) => {
-      res.status(200).send({
-        CH1025: false
-      })
-    }
-  )
+    res.status(200).send({
+      CH1025: false
+    })
+  })
+  .post("/feature-toggle", (req, res) => {
+    res.status(200).send({
+      versionId: "abc"
+    })
+  })
   .listen(8080, () => {
     console.log("server started at http://localhost:8080")
   })

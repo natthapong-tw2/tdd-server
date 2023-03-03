@@ -67,4 +67,20 @@ describe("index", () => {
       })
     })
   })
+
+  describe("POST /feature-toggle", () => {
+    it("should return id of current version", async () => {
+      const actual = await app
+        .post("/feature-toggle")
+        .set({ Authorization: "userId"})
+        .send({
+          CH1025: false
+        })
+
+      expect(actual.status).toEqual(200)
+      expect(actual.body).toEqual({
+        versionId: "abc"
+      })
+    })
+  })
 })
