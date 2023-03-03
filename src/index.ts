@@ -1,5 +1,6 @@
 import express from "express"
 import {handleToggle} from "./utils/handle-toggle"
+import {featureToggleRoute} from "./controllers/feature-toggle-route";
 
 const app = express()
 app
@@ -18,16 +19,7 @@ app
       res.status(200).send([])
     }
   )
-  .get("/feature-toggle", (req, res) => {
-    res.status(200).send({
-      CH1025: false
-    })
-  })
-  .post("/feature-toggle", (req, res) => {
-    res.status(200).send({
-      versionId: "abc"
-    })
-  })
+  .use("/feature-toggle", featureToggleRoute)
   .listen(8080, () => {
     console.log("server started at http://localhost:8080")
   })
