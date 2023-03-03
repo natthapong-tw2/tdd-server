@@ -1,6 +1,6 @@
 import express from "express"
 import {handleToggle} from "./utils/handle-toggle"
-import {featureToggleRoute} from "./controllers/feature-toggle-route";
+import {featureToggleRoute} from "./routes/feature-toggle-route";
 
 const app = express()
 app
