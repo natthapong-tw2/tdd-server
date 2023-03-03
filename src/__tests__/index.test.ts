@@ -55,4 +55,16 @@ describe("index", () => {
         .toEqual(200)
     })
   })
+
+  describe("GET /feature-toggle", () => {
+    it("should return expected response", async () => {
+      const actual = await app
+        .get("/feature-toggle")
+
+      expect(actual.status).toEqual(200)
+      expect(actual.body).toEqual({
+        CH1025: false
+      })
+    })
+  })
 })
