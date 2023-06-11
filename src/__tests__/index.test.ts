@@ -1,4 +1,5 @@
 import supertest from "supertest"
+import {describe, it, expect} from "vitest";
 
 describe("index", () => {
   const app = supertest("http://localhost:8080")

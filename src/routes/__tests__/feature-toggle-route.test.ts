@@ -1,15 +1,16 @@
 import express from "express";
 import supertest from "supertest";
 import {FeatureToggleRoute} from "../feature-toggle-route";
+import {describe, it, expect, vi, beforeEach} from "vitest";
 
 describe("FeatureToggleRoute", () => {
   const featureToggleService = {
-    setFeatureToggle: jest.fn()
+    setFeatureToggle: vi.fn()
   }
   const featureToggleRoute = FeatureToggleRoute(featureToggleService)
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   describe("POST /", () => {

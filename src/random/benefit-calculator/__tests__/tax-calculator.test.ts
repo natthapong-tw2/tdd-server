@@ -1,4 +1,5 @@
 import {TaxCalculator, TaxLadder} from "../tax-calculator"
+import {describe, it, expect} from "vitest";
 
 describe("TaxCalculator", () => {
   const taxLadders: TaxLadder[] = [

@@ -1,4 +1,5 @@
 import {BenefitCalculator} from "../benefit-calculator"
+import {describe, it, expect, vi} from "vitest";
 
 describe("BenefitCalculator", () => {
   const monthlySalary = 10000
@@ -50,7 +51,7 @@ describe("BenefitCalculator", () => {
   })
 
   it("should be able to calculate tax", () => {
-    const taxCalculator = jest.fn().mockReturnValue(1000);
+    const taxCalculator = vi.fn().mockReturnValue(1000);
 
     const actual = BenefitCalculator({
       monthlySalary,

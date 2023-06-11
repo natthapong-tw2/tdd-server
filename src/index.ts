@@ -1,6 +1,7 @@
 import express from "express"
 import {handleToggle} from "./utils/handle-toggle"
-import {featureToggleRoute} from "./routes/feature-toggle-route";
+import {FeatureToggleRoute} from "./routes/feature-toggle-route";
+import {FeatureToggleService} from "./services/feature-toggle-service";
 
 const app = express()
 app
@@ -19,7 +20,7 @@ app
       res.status(200).send([])
     }
   )
-  .use("/feature-toggle", featureToggleRoute)
+  .use("/feature-toggle", FeatureToggleRoute(FeatureToggleService()))
   .listen(8080, () => {
     console.log("server started at http://localhost:8080")
   })
