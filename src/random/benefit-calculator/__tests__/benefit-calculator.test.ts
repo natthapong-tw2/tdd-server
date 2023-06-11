@@ -1,5 +1,5 @@
-import {BenefitCalculator} from "../benefit-calculator"
-import {describe, it, expect, vi} from "vitest";
+import { BenefitCalculator } from "../benefit-calculator"
+import { describe, it, expect, vi } from "vitest"
 
 describe("BenefitCalculator", () => {
   const monthlySalary = 10000
@@ -13,8 +13,7 @@ describe("BenefitCalculator", () => {
       monthlySalary,
     })
 
-    expect(actual.monthlySalary)
-      .toEqual(monthlySalary)
+    expect(actual.monthlySalary).toEqual(monthlySalary)
   })
 
   it("should allow with bonus options", () => {
@@ -23,8 +22,7 @@ describe("BenefitCalculator", () => {
       bonusMultiplierRange,
     })
 
-    expect(actual.bonusMultiplierRange)
-      .toEqual(bonusMultiplierRange)
+    expect(actual.bonusMultiplierRange).toEqual(bonusMultiplierRange)
   })
 
   it("should be able to calculate total income per year", async () => {
@@ -51,7 +49,7 @@ describe("BenefitCalculator", () => {
   })
 
   it("should be able to calculate tax", () => {
-    const taxCalculator = vi.fn().mockReturnValue(1000);
+    const taxCalculator = vi.fn().mockReturnValue(1000)
 
     const actual = BenefitCalculator({
       monthlySalary,

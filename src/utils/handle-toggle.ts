@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from "express"
+import { NextFunction, Request, Response } from "express"
 
 export const handleToggle = (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.header("authorization")

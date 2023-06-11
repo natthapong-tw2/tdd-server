@@ -1,5 +1,5 @@
-import {TaxCalculator, TaxLadder} from "../tax-calculator"
-import {describe, it, expect} from "vitest";
+import { TaxCalculator, TaxLadder } from "../tax-calculator"
+import { describe, it, expect } from "vitest"
 
 describe("TaxCalculator", () => {
   const taxLadders: TaxLadder[] = [
@@ -40,8 +40,8 @@ describe("TaxCalculator", () => {
         const providentFund = currentMonthlyIncome * 0.15
         const currentMonthlyIncomeWithProvidentFund = currentMonthlyIncome + providentFund
 
-        const monthlyIncome = currentMonthlyIncomeWithProvidentFund * 1.3;
-        const annualIncome = monthlyIncome*12;
+        const monthlyIncome = currentMonthlyIncomeWithProvidentFund * 1.3
+        const annualIncome = monthlyIncome * 12
         const tax = taxCalculator.withIncome(annualIncome)
 
         return {
@@ -49,8 +49,8 @@ describe("TaxCalculator", () => {
           afterTax: annualIncome - tax,
           monthlyIncome,
           annualIncome,
-          currentMonthlyIncomeWithProvidentFund
-        };
+          currentMonthlyIncomeWithProvidentFund,
+        }
       }
 
       const result = calculateExpectSalaryFactor(currentMonthlyIncome)

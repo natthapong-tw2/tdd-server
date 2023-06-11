@@ -7,5 +7,5 @@ export type IFeatureToggleService = {
 }
 
 export const FeatureToggleService = (): IFeatureToggleService => ({
-  setFeatureToggle: async (appFeatureToggle: AppFeatureToggle) => {}
+  setFeatureToggle: async (appFeatureToggle: AppFeatureToggle) => {},
 })
