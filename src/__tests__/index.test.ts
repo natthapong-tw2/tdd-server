@@ -42,7 +42,9 @@ describe("index", () => {
     })
 
     it("should return 200 when it contains authorization header", async () => {
-      const actual = await app.post("/financial-planner").set({ Authorization: "abc" })
+      const actual = await app
+        .post("/financial-planner")
+        .set({ Authorization: "abc" })
 
       expect(actual.status).toEqual(200)
     })
@@ -61,14 +63,27 @@ describe("index", () => {
 
   describe("POST /feature-toggle", () => {
     it("should return id of current version", async () => {
-      const actual = await app.post("/feature-toggle").set({ Authorization: "userId" }).send({
-        CH1025: false,
-      })
+      const actual = await app
+        .post("/feature-toggle")
+        .set({ Authorization: "userId" })
+        .send({
+          CH1025: false,
+        })
 
       expect(actual.status).toEqual(200)
       expect(actual.body).toEqual({
         versionId: "abc",
       })
+    })
+  })
+
+  describe("POST /deployments", () => {})
+
+  describe("GET /deployment-frequency", () => {
+    it("should return 200", async () => {
+      const actual = await app.get("/deployment-frequency")
+
+      expect(actual.status).toEqual(200)
     })
   })
 })
