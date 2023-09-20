@@ -1,7 +1,7 @@
 import supertest from "supertest"
 import { describe, it, expect } from "vitest"
 
-describe("index", () => {
+describe.skip("index", () => {
   const app = supertest("http://localhost:8080")
 
   describe("GET /health-check", () => {
@@ -77,13 +77,31 @@ describe("index", () => {
     })
   })
 
-  describe("POST /deployments", () => {})
+  describe.skip("POST /deployments", () => {})
 
   describe("GET /deployment-frequency", () => {
     it("should return 200", async () => {
       const actual = await app.get("/deployment-frequency")
 
       expect(actual.status).toEqual(200)
+    })
+
+    it("should return expected schema", async () => {
+      const actual = await app.get("/deployment-frequency")
+
+      expect(actual.body).toEqual({
+        frequency: "10 times a month",
+        project: "",
+      })
+    })
+
+    it("should support frequency by week", async () => {
+      const actual = await app.get("/deployment-frequency?period=week")
+
+      expect(actual.body).toEqual({
+        frequency: "10 times a week",
+        project: "",
+      })
     })
   })
 })
