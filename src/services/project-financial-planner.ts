@@ -1,21 +1,4 @@
-type ProjectConfiguration = {
-  loanInfo: {
-    loanAmount: 100
-    interestRatePerYear: 5
-    paymentPlan: PaymentPlan
-  }
-}
-
-export enum LoanPaymentPlanType {
-  FixPrincipal = "fix-principal",
-}
-
-export type PaymentPlan = FixPrincipalPlan
-
-export type FixPrincipalPlan = {
-  type: LoanPaymentPlanType.FixPrincipal
-  amountPerMonth: number
-}
+import { ProjectConfiguration } from "./project-financial-planner/models"
 
 export const ProjectFinancialPlanner = (
   configuration: ProjectConfiguration
@@ -23,8 +6,10 @@ export const ProjectFinancialPlanner = (
   monthlyStatements: () => [
     {
       month: 1,
-      loanRemainingAmount: 100,
-      loanAfterDeduction: 0,
+      loanAmount: {
+        before: 100,
+        after: 0,
+      },
       interestRate:
         (configuration.loanInfo.loanAmount *
           configuration.loanInfo.interestRatePerYear) /
