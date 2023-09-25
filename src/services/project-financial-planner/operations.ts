@@ -11,6 +11,8 @@ type Money = {
   currency: Currency
 }
 
+type DaysInYear = 365 | 366
+
 export const Thb = (amount: Big): Money => ({
   amount,
   currency: Currency.Thb,
@@ -62,11 +64,11 @@ export const calculateInterest = ({
     .div(100)
     .div(numberOfDaysOfYear(lastPaymentDate))
 
-export const numberOfDaysOfYear = (day: Dayjs): number => {
+export const numberOfDaysOfYear = (day: Dayjs): DaysInYear => {
   const thisYear = day.get("year")
   const beginDateNextYear = dayjs(`${thisYear + 1}-01-01`)
   const beginDateThisYear = dayjs(`${thisYear}-01-01`)
-  return beginDateNextYear.diff(beginDateThisYear, "days")
+  return beginDateNextYear.diff(beginDateThisYear, "days") === 365 ? 365 : 366
 }
 
 export const nextPaymentDate = (refDate: Dayjs, payday: number) => {
@@ -78,3 +80,39 @@ export const nextPaymentDate = (refDate: Dayjs, payday: number) => {
   }
   return refDate.set("months", refDate.get("months") + 1)
 }
+
+export const interestRateCondition = (
+  beginDate: Dayjs,
+  endDate: Dayjs,
+  includeFirstDayOfYear: boolean = false
+): { duration: number; daysInYear: DaysInYear }[] => {
+  if (beginDate.isAfter(endDate)) {
+    throw new Error("Begin date must before end date")
+  }
+  const isSameYear = beginDate.get("years") === endDate.get("years")
+  if (isSameYear) {
+    return [
+      {
+        duration:
+          endDate.diff(beginDate, "days") + (includeFirstDayOfYear ? 1 : 0),
+        daysInYear: numberOfDaysOfYear(beginDate),
+      },
+    ]
+  }
+
+  return [
+    {
+      duration:
+        endOfYear(beginDate).diff(beginDate, "days") +
+        (includeFirstDayOfYear ? 1 : 0),
+      daysInYear: numberOfDaysOfYear(beginDate),
+    },
+    ...interestRateCondition(beginOfNextYear(beginDate), endDate, true),
+  ]
+}
+
+export const endOfYear = (refDate: Dayjs) =>
+  dayjs(`${refDate.get("years")}-12-31`)
+
+export const beginOfNextYear = (refDate: Dayjs) =>
+  dayjs(`${refDate.get("years") + 1}-01-01`)

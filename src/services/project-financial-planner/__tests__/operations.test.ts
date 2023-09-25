@@ -1,8 +1,11 @@
 import { describe, it, expect } from "vitest"
 import { LoanPaymentPlanType, ProjectConfiguration } from "../models"
 import {
+  beginOfNextYear,
   calculateInterest,
   calculateMonthly,
+  endOfYear,
+  interestRateCondition,
   nextPaymentDate,
   numberOfDaysOfYear,
   Thb,
@@ -106,6 +109,76 @@ describe("Operations", () => {
       const actual = nextPaymentDate(refDate, 3)
 
       expect(actual).toEqual(dayjs("2023-02-03"))
+    })
+
+    it("should return next year if ref date is last month of the year", () => {
+      const refDate = dayjs("2023-12-04")
+      const actual = nextPaymentDate(refDate, 3)
+
+      expect(actual).toEqual(dayjs("2024-01-03"))
+    })
+  })
+
+  describe("interestRateCondition", () => {
+    it("should throw error when beginDate is after endDate", () => {
+      expect(() =>
+        interestRateCondition(dayjs("2023-01-01"), dayjs("2022-01-02"))
+      ).toThrow("Begin date must before end date")
+    })
+    it("should return 1 condition when both dates are from same year", () => {
+      const beginDate = dayjs("2023-01-03")
+      const endDate = dayjs("2023-01-05")
+      const actual = interestRateCondition(beginDate, endDate)
+
+      expect(actual).toEqual([
+        { duration: 2, daysInYear: numberOfDaysOfYear(beginDate) },
+      ])
+    })
+
+    it("should return 2 conditions when both dates are from different years", () => {
+      const beginDate = dayjs("2023-12-28")
+      const endDate = dayjs("2024-01-03")
+      const actual = interestRateCondition(beginDate, endDate)
+
+      expect(actual).toEqual([
+        { duration: 3, daysInYear: numberOfDaysOfYear(beginDate) },
+        { duration: 3, daysInYear: numberOfDaysOfYear(endDate) },
+      ])
+    })
+
+    it("should return 3 conditions when both dates are from different years", () => {
+      const beginDate = dayjs("2023-12-28")
+      const endDate = dayjs("2025-01-03")
+      const actual = interestRateCondition(beginDate, endDate)
+
+      expect(actual).toEqual([
+        { duration: 3, daysInYear: numberOfDaysOfYear(beginDate) },
+        { duration: 366, daysInYear: numberOfDaysOfYear(dayjs("2024-01-01")) },
+        { duration: 3, daysInYear: numberOfDaysOfYear(endDate) },
+      ])
+    })
+
+    describe("dateSet experiment", () => {
+      it("should calculate end date of year correctly", () => {
+        const refDate = dayjs("2023-12-28")
+        const endOfYearDate = endOfYear(refDate)
+
+        expect(endOfYearDate).toEqual(dayjs("2023-12-31"))
+      })
+
+      it("should calculate begin of next year correctly", () => {
+        const refDate = dayjs("2023-12-28")
+        const actual = beginOfNextYear(refDate)
+
+        expect(actual).toEqual(dayjs("2024-01-01"))
+      })
+
+      it("should be true if the same year", () => {
+        const refDate = dayjs("2023-12-28")
+        const refDate2 = dayjs("2023-12-28")
+
+        expect(refDate.get("years")).toEqual(refDate2.get("years"))
+      })
     })
   })
 })
