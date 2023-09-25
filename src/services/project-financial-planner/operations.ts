@@ -18,6 +18,7 @@ export const Thb = (amount: Big): Money => ({
 
 type MonthlyStatement = {
   month: number
+  payDate: Dayjs
   loanAmount: {
     before: Money
     after: Money
@@ -32,6 +33,7 @@ export const calculateMonthly = (
 ): MonthlyStatement[] => [
   {
     month: 1,
+    payDate: dayjs("2023-02-01"),
     loanAmount: {
       before: Thb(Big(100)),
       after: Thb(Big(0)),
@@ -65,4 +67,14 @@ export const numberOfDaysOfYear = (day: Dayjs): number => {
   const beginDateNextYear = dayjs(`${thisYear + 1}-01-01`)
   const beginDateThisYear = dayjs(`${thisYear}-01-01`)
   return beginDateNextYear.diff(beginDateThisYear, "days")
+}
+
+export const nextPaymentDate = (refDate: Dayjs, payday: number) => {
+  if (refDate.date() < payday) {
+    return refDate.set("dates", payday)
+  }
+  if (refDate.date() > payday) {
+    return refDate.set("dates", payday).set("months", refDate.get("months") + 1)
+  }
+  return refDate.set("months", refDate.get("months") + 1)
 }
