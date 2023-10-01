@@ -57,12 +57,17 @@ export const calculateInterest = ({
   currentDate,
   interestRate,
   principal,
-}: InterestCalculationInput): Big =>
-  principal
-    .mul(interestRate)
-    .mul(currentDate.diff(lastPaymentDate, "days"))
-    .div(100)
-    .div(numberOfDaysOfYear(lastPaymentDate))
+}: InterestCalculationInput): Big => {
+  return interestRateCondition(lastPaymentDate, currentDate).reduce(
+    (total, current) => {
+      const { duration, daysInYear } = current
+      return total.add(
+        principal.mul(interestRate).mul(duration).div(100).div(daysInYear)
+      )
+    },
+    Big(0)
+  )
+}
 
 export const numberOfDaysOfYear = (day: Dayjs): DaysInYear => {
   const thisYear = day.get("year")

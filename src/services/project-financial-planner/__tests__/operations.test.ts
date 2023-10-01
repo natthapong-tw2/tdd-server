@@ -46,7 +46,8 @@ describe("Operations", () => {
   })
 
   describe("calculateInterest", () => {
-    it("should calculate interest correctly", () => {
+    const monthlyPayment = Big(36500)
+    it("should calculate interest same year correctly", () => {
       const lastPaymentDate = dayjs("2023-01-15")
       const currentDate = dayjs("2023-02-15")
       const interestRate = Big(5)
@@ -64,7 +65,53 @@ describe("Operations", () => {
         .div(100)
         .div(numberOfDaysOfYear(lastPaymentDate))
 
+      console.log({ expected })
       expect(actual).toEqual(expected)
+    })
+
+    it("should calculate interest with different year correctly", () => {
+      const lastPaymentDate = dayjs("2022-12-15")
+      const currentDate = dayjs("2023-01-15")
+
+      const actual = calculateInterest({
+        lastPaymentDate,
+        currentDate,
+        interestRate: Big(5),
+        principal: Big(36500),
+      })
+
+      expect(actual).toEqual(Big("155"))
+    })
+
+    it("should calculate interest with across leap year", () => {
+      const lastPaymentDate = dayjs("2023-12-15")
+      const currentDate = dayjs("2024-01-15")
+      const principal = Big(36500)
+      const interestRate = Big(5)
+
+      const actual = calculateInterest({
+        lastPaymentDate,
+        currentDate,
+        interestRate,
+        principal,
+      })
+
+      const interestCondition = interestRateCondition(
+        lastPaymentDate,
+        currentDate
+      )
+      const totalInterest = interestCondition.reduce((total, current) => {
+        const { duration, daysInYear } = current
+
+        const currentYearInterest = principal
+          .mul(interestRate)
+          .mul(duration)
+          .div(100)
+          .div(daysInYear)
+        return total.add(currentYearInterest)
+      }, Big(0))
+
+      expect(actual).toEqual(totalInterest)
     })
   })
 
