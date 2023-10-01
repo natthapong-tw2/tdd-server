@@ -1,13 +1,11 @@
 import { describe, it, expect } from "vitest"
 import { ProjectFinancialPlanner } from "../project-financial-planner"
-import {
-  AccountType,
-  LoanPaymentPlanType,
-  Transaction,
-  TransactionType,
-} from "../project-financial-planner/models"
+import { AccountType } from "../project-financial-planner/models"
 import dayjs from "dayjs"
 import Big from "big.js"
+import { Transaction } from "../project-financial-planner/transaction"
+import { LoanPaymentPlanType } from "../project-financial-planner/loan/models"
+import { TransactionType } from "../project-financial-planner/transaction-type"
 
 describe("ProjectFinancialPanner", () => {
   const transactions: Transaction[] = [
@@ -18,10 +16,10 @@ describe("ProjectFinancialPanner", () => {
         beginLoanDate: dayjs("2023-01-01"),
         payday: 3,
         loanAmount: Big(100),
-        interestRatePerYear: 5,
+        interestRatePerYear: Big(5),
         paymentPlan: {
           type: LoanPaymentPlanType.FixPrinciple,
-          amountPerMonth: 100,
+          amountPerMonth: Big(100),
         },
       },
       date: dayjs("2023-01-01"),

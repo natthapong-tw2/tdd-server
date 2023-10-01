@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { LoanPaymentPlanType, ProjectConfiguration } from "../models"
+import { ProjectConfiguration } from "../models"
 import {
   beginOfNextYear,
   calculateInterest,
@@ -12,19 +12,20 @@ import {
 } from "../operations"
 import Big from "big.js"
 import dayjs from "dayjs"
+import { LoanPaymentPlanType } from "../loan/models"
 
 describe("Operations", () => {
   const configuration: ProjectConfiguration = {
-    loans: [
+    accounts: [
       {
         name: "Co-op",
         beginLoanDate: dayjs("2023-01-01"),
         payday: 1,
         loanAmount: Big(100),
-        interestRatePerYear: 5,
+        interestRatePerYear: Big(5),
         paymentPlan: {
           type: LoanPaymentPlanType.FixPrinciple,
-          amountPerMonth: 100,
+          amountPerMonth: Big(100),
         },
       },
     ],
