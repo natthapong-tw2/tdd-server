@@ -1,13 +1,16 @@
 import { Dayjs } from "dayjs"
 
+export type LoanInfo = {
+  name: "Co-op"
+  beginLoanDate: Dayjs
+  payday: number
+  loanAmount: 100
+  interestRatePerYear: 5
+  paymentPlan: PaymentPlan
+}
+
 export type ProjectConfiguration = {
-  loanInfo: {
-    beginLoanDate: Dayjs
-    payday: number
-    loanAmount: 100
-    interestRatePerYear: 5
-    paymentPlan: PaymentPlan
-  }
+  loans: LoanInfo[]
 }
 
 export enum LoanPaymentPlanType {
