@@ -49,20 +49,20 @@ type InterestCalculationInput = {
   lastPaymentDate: Dayjs
   currentDate: Dayjs
   interestRate: Big
-  principal: Big
+  principle: Big
 }
 
 export const calculateInterest = ({
   lastPaymentDate,
   currentDate,
   interestRate,
-  principal,
+  principle,
 }: InterestCalculationInput): Big => {
   return interestRateCondition(lastPaymentDate, currentDate).reduce(
     (total, current) => {
       const { duration, daysInYear } = current
       return total.add(
-        principal.mul(interestRate).mul(duration).div(100).div(daysInYear)
+        principle.mul(interestRate).mul(duration).div(100).div(daysInYear)
       )
     },
     Big(0)

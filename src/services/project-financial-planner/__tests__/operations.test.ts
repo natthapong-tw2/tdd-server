@@ -15,16 +15,19 @@ import dayjs from "dayjs"
 
 describe("Operations", () => {
   const configuration: ProjectConfiguration = {
-    loanInfo: {
-      beginLoanDate: dayjs("2023-01-01"),
-      payday: 1,
-      loanAmount: 100,
-      interestRatePerYear: 5,
-      paymentPlan: {
-        type: LoanPaymentPlanType.FixPrincipal,
-        amountPerMonth: 100,
+    loans: [
+      {
+        name: "Co-op",
+        beginLoanDate: dayjs("2023-01-01"),
+        payday: 1,
+        loanAmount: Big(100),
+        interestRatePerYear: 5,
+        paymentPlan: {
+          type: LoanPaymentPlanType.FixPrinciple,
+          amountPerMonth: 100,
+        },
       },
-    },
+    ],
   }
   describe("calculateMonthly", () => {
     it("should calculate for first month", () => {
@@ -46,20 +49,19 @@ describe("Operations", () => {
   })
 
   describe("calculateInterest", () => {
-    const monthlyPayment = Big(36500)
     it("should calculate interest same year correctly", () => {
       const lastPaymentDate = dayjs("2023-01-15")
       const currentDate = dayjs("2023-02-15")
       const interestRate = Big(5)
-      const principal = Big(36500)
+      const principle = Big(36500)
       const actual = calculateInterest({
         lastPaymentDate,
         currentDate,
         interestRate,
-        principal,
+        principle,
       })
 
-      const expected = principal
+      const expected = principle
         .mul(interestRate)
         .mul(currentDate.diff(lastPaymentDate, "days"))
         .div(100)
@@ -77,7 +79,7 @@ describe("Operations", () => {
         lastPaymentDate,
         currentDate,
         interestRate: Big(5),
-        principal: Big(36500),
+        principle: Big(36500),
       })
 
       expect(actual).toEqual(Big("155"))
@@ -86,14 +88,14 @@ describe("Operations", () => {
     it("should calculate interest with across leap year", () => {
       const lastPaymentDate = dayjs("2023-12-15")
       const currentDate = dayjs("2024-01-15")
-      const principal = Big(36500)
+      const principle = Big(36500)
       const interestRate = Big(5)
 
       const actual = calculateInterest({
         lastPaymentDate,
         currentDate,
         interestRate,
-        principal,
+        principle,
       })
 
       const interestCondition = interestRateCondition(
@@ -103,7 +105,7 @@ describe("Operations", () => {
       const totalInterest = interestCondition.reduce((total, current) => {
         const { duration, daysInYear } = current
 
-        const currentYearInterest = principal
+        const currentYearInterest = principle
           .mul(interestRate)
           .mul(duration)
           .div(100)

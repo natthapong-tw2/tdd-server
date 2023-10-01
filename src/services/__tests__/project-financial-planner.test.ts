@@ -5,6 +5,7 @@ import {
   ProjectConfiguration,
 } from "../project-financial-planner/models"
 import dayjs from "dayjs"
+import Big from "big.js"
 
 describe("ProjectFinancialPanner", () => {
   const configuration: ProjectConfiguration = {
@@ -13,10 +14,10 @@ describe("ProjectFinancialPanner", () => {
         name: "Co-op",
         beginLoanDate: dayjs("2023-01-01"),
         payday: 3,
-        loanAmount: 100,
+        loanAmount: Big(100),
         interestRatePerYear: 5,
         paymentPlan: {
-          type: LoanPaymentPlanType.FixPrincipal,
+          type: LoanPaymentPlanType.FixPrinciple,
           amountPerMonth: 100,
         },
       },
