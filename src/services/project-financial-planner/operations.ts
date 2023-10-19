@@ -1,4 +1,3 @@
-import { ProjectConfiguration } from "./models"
 import Big from "big.js"
 import dayjs, { Dayjs } from "dayjs"
 
@@ -30,8 +29,7 @@ type MonthlyStatement = {
 }
 
 export const calculateMonthly = (
-  previousMonths: MonthlyStatement[],
-  configuration: ProjectConfiguration
+  previousMonths: MonthlyStatement[]
 ): MonthlyStatement[] => [
   {
     month: 1,

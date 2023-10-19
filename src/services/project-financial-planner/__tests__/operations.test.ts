@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest"
-import { ProjectConfiguration } from "../models"
 import {
   beginOfNextYear,
   calculateInterest,
@@ -12,27 +11,11 @@ import {
 } from "../operations"
 import Big from "big.js"
 import dayjs from "dayjs"
-import { LoanPaymentPlanType } from "../loan/models"
 
 describe("Operations", () => {
-  const configuration: ProjectConfiguration = {
-    accounts: [
-      {
-        name: "Co-op",
-        beginLoanDate: dayjs("2023-01-01"),
-        payday: 1,
-        loanAmount: Big(100),
-        interestRatePerYear: Big(5),
-        paymentPlan: {
-          type: LoanPaymentPlanType.FixPrinciple,
-          amountPerMonth: Big(100),
-        },
-      },
-    ],
-  }
   describe("calculateMonthly", () => {
     it("should calculate for first month", () => {
-      const actual = calculateMonthly([], configuration)
+      const actual = calculateMonthly([])
 
       expect(actual).toEqual([
         {

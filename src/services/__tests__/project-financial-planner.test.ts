@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import { ProjectFinancialPlanner } from "../project-financial-planner"
-import { AccountType } from "../project-financial-planner/models"
+import { AccountType } from "../project-financial-planner/account-type"
 import dayjs from "dayjs"
 import Big from "big.js"
 import { Transaction } from "../project-financial-planner/transaction"

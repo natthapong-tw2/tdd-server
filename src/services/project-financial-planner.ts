@@ -1,7 +1,4 @@
-import {
-  AccountType,
-  ProjectConfiguration,
-} from "./project-financial-planner/models"
+import { AccountType } from "./project-financial-planner/account-type"
 import dayjs from "dayjs"
 import Big from "big.js"
 import { Transaction } from "./project-financial-planner/transaction"
@@ -9,22 +6,6 @@ import { LoanPaymentPlanType } from "./project-financial-planner/loan/models"
 import { TransactionType } from "./project-financial-planner/transaction-type"
 
 export const ProjectFinancialPlanner = (transactions: Transaction[]) => {
-  const configuration: ProjectConfiguration = {
-    accounts: [
-      {
-        name: "Co-op",
-        beginLoanDate: dayjs("2023-01-01"),
-        payday: 3,
-        loanAmount: Big(100),
-        interestRatePerYear: Big(5),
-        paymentPlan: {
-          type: LoanPaymentPlanType.FixPrinciple,
-          amountPerMonth: Big(100),
-        },
-      },
-    ],
-  }
-
   const accounts = transactions
     .filter(({ type }) => type === TransactionType.OpenLoanAccount)
     .map((openAccountTransaction) => ({
@@ -43,7 +24,7 @@ export const ProjectFinancialPlanner = (transactions: Transaction[]) => {
   return {
     accounts: () => accounts,
     monthlyStatements: () => ({
-      loans: configuration.accounts.map((loanInfo) => ({
+      loans: accounts.map((loanInfo) => ({
         name: loanInfo.name,
         statements: [
           {
