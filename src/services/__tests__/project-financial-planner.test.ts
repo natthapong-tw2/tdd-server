@@ -33,6 +33,14 @@ describe("ProjectFinancialPanner", () => {
     })
   })
 
+  describe("expenses", () => {
+    it("should have expense account start at 0", () => {
+      const expenses = projectFinancialPlanner.expenses()
+
+      expect(expenses).toEqual([])
+    })
+  })
+
   describe("statements", () => {
     it("should be able to init", () => {
       expect(projectFinancialPlanner.statements()).toEqual({
