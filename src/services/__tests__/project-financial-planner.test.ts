@@ -6,6 +6,7 @@ import {
   loanAccount,
   transactionOpenLoanAccount,
 } from "../project-financial-planner/loan/__mocks__/mocks"
+import { openLoanAccount } from "../project-financial-planner/loan/open-loan-account"
 
 describe("ProjectFinancialPanner", () => {
   const transactions: Transaction[] = [transactionOpenLoanAccount("Co-op")]
@@ -34,10 +35,12 @@ describe("ProjectFinancialPanner", () => {
   })
 
   describe("expenses", () => {
-    it("should have expense account start at 0", () => {
+    it("should calculate expense from loan transaction", () => {
       const expenses = projectFinancialPlanner.expenses()
 
-      expect(expenses).toEqual([])
+      expect(expenses).toEqual(
+        openLoanAccount(transactionOpenLoanAccount("Co-op")).expenses
+      )
     })
   })
 

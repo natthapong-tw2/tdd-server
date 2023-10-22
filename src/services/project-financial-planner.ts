@@ -17,17 +17,21 @@ export type IProjectFinancialPlanner = {
 export const ProjectFinancialPlanner = (
   transactions: Transaction[]
 ): IProjectFinancialPlanner => {
-  const accounts = transactions
+  const openLoanAccountResults = transactions
     .filter(({ type }) => type === TransactionType.OpenLoanAccount)
     .map(openLoanAccount)
-    .map((openLoanAccountResult) => openLoanAccountResult.account)
+
+  const accounts = openLoanAccountResults.map(
+    (openLoanAccountResult) => openLoanAccountResult.account
+  )
 
   return {
     accounts: () => accounts,
     addTransactions: (newTransactions: Transaction[]) =>
       ProjectFinancialPlanner([...transactions, ...newTransactions]),
     transactions: () => transactions,
-    expenses: () => [],
+    expenses: () =>
+      openLoanAccountResults.map(({ expenses }) => expenses).flat(),
     statements: () => ({
       loans: accounts.map((loanInfo) => ({
         name: loanInfo.name,
