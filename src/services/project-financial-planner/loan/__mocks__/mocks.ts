@@ -27,7 +27,7 @@ export const transactionOpenLoanAccount = (
     {
       amount: Big(100),
       date: dayjs("2023-01-01"),
-      name: "Pa Dang",
+      receiverName: "Pa Dang",
       note: "Previous landlord",
     },
   ],

@@ -1,48 +1,26 @@
 import { describe, it, expect } from "vitest"
 import { openLoanAccount } from "../open-loan-account"
-import { TransactionType } from "../../transaction-type"
-import dayjs from "dayjs"
+import { loanAccount, transactionOpenLoanAccount } from "../__mocks__/mocks"
 import Big from "big.js"
-import { LoanPaymentPlanType } from "../models"
-import { AccountType } from "../../account-type"
+import dayjs from "dayjs"
 
 describe("openLoanAccount", () => {
   it("should return initial loan account from transaction", () => {
-    const actual = openLoanAccount({
-      type: TransactionType.OpenLoanAccount,
-      info: {
-        name: "Co-op",
-        beginLoanDate: dayjs("2023-01-01"),
-        payday: 3,
-        loanAmount: Big(100),
-        interestRatePerYear: Big(5),
-        paymentPlan: {
-          type: LoanPaymentPlanType.FixPrinciple,
-          amountPerMonth: Big(100),
-        },
-      },
-      targets: [
-        {
-          amount: Big(100),
-          date: dayjs("2023-01-01"),
-          name: "Pa Dang",
-          note: "Previous landlord",
-        },
-      ],
-      date: dayjs("2023-01-01"),
-    })
+    const actual = openLoanAccount(transactionOpenLoanAccount("Co-op"))
 
-    expect(actual.account).toEqual({
-      accountType: AccountType.Loan,
-      name: "Co-op",
-      beginLoanDate: dayjs("2023-01-01"),
-      payday: 3,
-      loanAmount: Big(100),
-      interestRatePerYear: Big(5),
-      paymentPlan: {
-        type: LoanPaymentPlanType.FixPrinciple,
-        amountPerMonth: Big(100),
+    expect(actual.account).toEqual(loanAccount)
+  })
+  it("should return initial expenses from transaction", () => {
+    const actual = openLoanAccount(transactionOpenLoanAccount("Co-op"))
+
+    expect(actual.expenses).toEqual([
+      {
+        fromAccount: "Co-op",
+        receiverName: "Pa Dang",
+        amount: Big(100),
+        date: dayjs("2023-01-01"),
+        note: "Previous landlord",
       },
-    })
+    ])
   })
 })

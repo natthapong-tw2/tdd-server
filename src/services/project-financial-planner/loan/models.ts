@@ -8,7 +8,7 @@ export enum LoanPaymentPlanType {
 }
 
 export type Target = {
-  name: string
+  receiverName: string
   amount: Big
   date: Dayjs
   note?: string
