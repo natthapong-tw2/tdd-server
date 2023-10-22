@@ -7,6 +7,13 @@ export enum LoanPaymentPlanType {
   FixPrinciple = "fix-principle",
 }
 
+export type Target = {
+  name: string
+  amount: Big
+  date: Dayjs
+  note?: string
+}
+
 export type TransactionOpenLoanAccount = {
   type: TransactionType.OpenLoanAccount
   info: {
@@ -20,6 +27,7 @@ export type TransactionOpenLoanAccount = {
       amountPerMonth: Big
     }
   }
+  targets: Target[]
   date: Dayjs
 }
 

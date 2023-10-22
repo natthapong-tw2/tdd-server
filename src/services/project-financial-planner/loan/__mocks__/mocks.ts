@@ -23,6 +23,14 @@ export const transactionOpenLoanAccount = (
       amountPerMonth: Big(100),
     },
   },
+  targets: [
+    {
+      amount: Big(100),
+      date: dayjs("2023-01-01"),
+      name: "Pa Dang",
+      note: "Previous landlord",
+    },
+  ],
   date: dayjs("2023-01-01"),
 })
 
