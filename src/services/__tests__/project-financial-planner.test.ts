@@ -8,9 +8,24 @@ import {
 } from "../project-financial-planner/loan/__mocks__/mocks"
 
 describe("ProjectFinancialPanner", () => {
-  const transactions: Transaction[] = [transactionOpenLoanAccount]
+  const transactions: Transaction[] = [transactionOpenLoanAccount("Co-op")]
 
   const projectFinancialPlanner = ProjectFinancialPlanner(transactions)
+
+  describe("addTransactions", () => {
+    it("should return new financial planner with new transaction", () => {
+      const actual = projectFinancialPlanner.addTransactions([
+        transactionOpenLoanAccount("Co-op2"),
+      ])
+
+      expect(actual.transactions()).toEqual(
+        ProjectFinancialPlanner([
+          transactionOpenLoanAccount("Co-op"),
+          transactionOpenLoanAccount("Co-op2"),
+        ]).transactions()
+      )
+    })
+  })
 
   describe("accounts", () => {
     it("should calculate loan account based on create loan account transaction correctly", () => {
@@ -18,9 +33,9 @@ describe("ProjectFinancialPanner", () => {
     })
   })
 
-  describe("monthlyStatements", () => {
+  describe("statements", () => {
     it("should be able to init", () => {
-      expect(projectFinancialPlanner.monthlyStatements()).toEqual({
+      expect(projectFinancialPlanner.statements()).toEqual({
         loans: [
           {
             name: "Co-op",

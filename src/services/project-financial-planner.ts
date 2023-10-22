@@ -1,14 +1,13 @@
-import { AccountType } from "./project-financial-planner/account-type"
-import dayjs from "dayjs"
 import Big from "big.js"
 import { Transaction } from "./project-financial-planner/transaction"
-import { LoanPaymentPlanType } from "./project-financial-planner/loan/models"
 import { TransactionType } from "./project-financial-planner/transaction-type"
 import { openLoanAccount } from "./project-financial-planner/loan/open-loan-account"
 
 export type IProjectFinancialPlanner = {
   accounts: () => any[]
-  monthlyStatements: () => {
+  addTransactions: (transactions: Transaction[]) => IProjectFinancialPlanner
+  transactions: () => Transaction[]
+  statements: () => {
     loans: any[]
   }
 }
@@ -22,7 +21,10 @@ export const ProjectFinancialPlanner = (
 
   return {
     accounts: () => accounts,
-    monthlyStatements: () => ({
+    addTransactions: (newTransactions: Transaction[]) =>
+      ProjectFinancialPlanner([...transactions, ...newTransactions]),
+    transactions: () => transactions,
+    statements: () => ({
       loans: accounts.map((loanInfo) => ({
         name: loanInfo.name,
         statements: [

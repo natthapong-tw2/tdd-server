@@ -8,10 +8,12 @@ import {
 } from "../models"
 import { AccountType } from "../../account-type"
 
-export const transactionOpenLoanAccount: TransactionOpenLoanAccount = {
+export const transactionOpenLoanAccount = (
+  name: string
+): TransactionOpenLoanAccount => ({
   type: TransactionType.OpenLoanAccount,
   info: {
-    name: "Co-op",
+    name,
     beginLoanDate: dayjs("2023-01-01"),
     payday: 3,
     loanAmount: Big(100),
@@ -22,7 +24,7 @@ export const transactionOpenLoanAccount: TransactionOpenLoanAccount = {
     },
   },
   date: dayjs("2023-01-01"),
-}
+})
 
 export const loanAccount: LoanAccount = {
   accountType: AccountType.Loan,

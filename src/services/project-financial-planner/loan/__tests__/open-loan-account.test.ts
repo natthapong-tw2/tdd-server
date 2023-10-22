@@ -4,7 +4,7 @@ import { openLoanAccount } from "../open-loan-account"
 
 describe("openLoanAccount", () => {
   it("should return initial loan account from transaction", () => {
-    const actual = openLoanAccount(transactionOpenLoanAccount)
+    const actual = openLoanAccount(transactionOpenLoanAccount("Co-op"))
 
     expect(actual).toEqual(loanAccount)
   })

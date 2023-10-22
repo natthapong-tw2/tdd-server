@@ -10,7 +10,7 @@ export enum LoanPaymentPlanType {
 export type TransactionOpenLoanAccount = {
   type: TransactionType.OpenLoanAccount
   info: {
-    name: "Co-op"
+    name: string
     beginLoanDate: Dayjs
     payday: number
     loanAmount: Big
