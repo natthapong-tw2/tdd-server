@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { ProjectFinancialPlanner } from "../project-financial-planner"
 import Big from "big.js"
-import { Transaction } from "../project-financial-planner/transaction"
+import { Transaction } from "../project-financial-planner/models/transaction"
 import {
   loanAccount,
   transactionOpenLoanAccount,

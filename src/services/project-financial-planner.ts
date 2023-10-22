@@ -1,15 +1,8 @@
 import Big from "big.js"
-import { Transaction } from "./project-financial-planner/transaction"
-import { TransactionType } from "./project-financial-planner/transaction-type"
+import { Transaction } from "./project-financial-planner/models/transaction"
+import { TransactionType } from "./project-financial-planner/models/transaction-type"
 import { openLoanAccount } from "./project-financial-planner/loan/open-loan-account"
-import { Dayjs } from "dayjs"
-
-export type Expense = {
-  fromAccount: string
-  note?: string
-  amount: Big
-  date: Dayjs
-}
+import { Expense } from "./project-financial-planner/models/expense"
 
 export type IProjectFinancialPlanner = {
   accounts: () => any[]

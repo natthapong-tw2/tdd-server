@@ -1,7 +1,8 @@
-import { LoanAccount, TransactionOpenLoanAccount } from "./models"
-import { AccountType } from "../account-type"
-import { Expense } from "../../project-financial-planner"
+import { AccountType } from "../models/account-type"
 import Big from "big.js"
+import { Expense } from "../models/expense"
+import { TransactionOpenLoanAccount } from "./models/transaction-open-loan-account"
+import { LoanAccount } from "./models/loan-account"
 
 type OpenLoanAccountResult = {
   account: LoanAccount

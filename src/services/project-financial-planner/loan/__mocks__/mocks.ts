@@ -1,12 +1,10 @@
-import { TransactionType } from "../../transaction-type"
+import { TransactionType } from "../../models/transaction-type"
 import dayjs from "dayjs"
 import Big from "big.js"
-import {
-  LoanAccount,
-  LoanPaymentPlanType,
-  TransactionOpenLoanAccount,
-} from "../models"
-import { AccountType } from "../../account-type"
+import { AccountType } from "../../models/account-type"
+import { LoanPaymentPlanType } from "../models/payment-plan"
+import { TransactionOpenLoanAccount } from "../models/transaction-open-loan-account"
+import { LoanAccount } from "../models/loan-account"
 
 export const transactionOpenLoanAccount = (
   name: string
