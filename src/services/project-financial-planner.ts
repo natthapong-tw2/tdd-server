@@ -4,6 +4,7 @@ import Big from "big.js"
 import { Transaction } from "./project-financial-planner/transaction"
 import { LoanPaymentPlanType } from "./project-financial-planner/loan/models"
 import { TransactionType } from "./project-financial-planner/transaction-type"
+import { openLoanAccount } from "./project-financial-planner/loan/open-loan-account"
 
 export type IProjectFinancialPlanner = {
   accounts: () => any[]
@@ -17,18 +18,7 @@ export const ProjectFinancialPlanner = (
 ): IProjectFinancialPlanner => {
   const accounts = transactions
     .filter(({ type }) => type === TransactionType.OpenLoanAccount)
-    .map((openAccountTransaction) => ({
-      accountType: AccountType.Loan,
-      name: "Co-op",
-      beginLoanDate: dayjs("2023-01-01"),
-      payday: 3,
-      loanAmount: Big(100),
-      interestRatePerYear: Big(5),
-      paymentPlan: {
-        type: LoanPaymentPlanType.FixPrinciple,
-        amountPerMonth: Big(100),
-      },
-    }))
+    .map(openLoanAccount)
 
   return {
     accounts: () => accounts,

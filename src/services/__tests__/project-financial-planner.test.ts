@@ -1,49 +1,20 @@
-import { describe, it, expect } from "vitest"
+import { describe, expect, it } from "vitest"
 import { ProjectFinancialPlanner } from "../project-financial-planner"
-import { AccountType } from "../project-financial-planner/account-type"
-import dayjs from "dayjs"
 import Big from "big.js"
 import { Transaction } from "../project-financial-planner/transaction"
-import { LoanPaymentPlanType } from "../project-financial-planner/loan/models"
-import { TransactionType } from "../project-financial-planner/transaction-type"
+import {
+  loanAccount,
+  transactionOpenLoanAccount,
+} from "../project-financial-planner/loan/__mocks__/mocks"
 
 describe("ProjectFinancialPanner", () => {
-  const transactions: Transaction[] = [
-    {
-      type: TransactionType.OpenLoanAccount,
-      info: {
-        name: "Co-op",
-        beginLoanDate: dayjs("2023-01-01"),
-        payday: 3,
-        loanAmount: Big(100),
-        interestRatePerYear: Big(5),
-        paymentPlan: {
-          type: LoanPaymentPlanType.FixPrinciple,
-          amountPerMonth: Big(100),
-        },
-      },
-      date: dayjs("2023-01-01"),
-    },
-  ]
+  const transactions: Transaction[] = [transactionOpenLoanAccount]
 
   const projectFinancialPlanner = ProjectFinancialPlanner(transactions)
 
   describe("accounts", () => {
     it("should calculate loan account based on create loan account transaction correctly", () => {
-      expect(projectFinancialPlanner.accounts()).toEqual([
-        {
-          accountType: AccountType.Loan,
-          name: "Co-op",
-          beginLoanDate: dayjs("2023-01-01"),
-          payday: 3,
-          loanAmount: Big(100),
-          interestRatePerYear: Big(5),
-          paymentPlan: {
-            type: LoanPaymentPlanType.FixPrinciple,
-            amountPerMonth: Big(100),
-          },
-        },
-      ])
+      expect(projectFinancialPlanner.accounts()).toEqual([loanAccount])
     })
   })
 
