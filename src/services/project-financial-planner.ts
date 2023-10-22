@@ -1,15 +1,19 @@
 import Big from "big.js"
 import { Transaction } from "./project-financial-planner/models/transaction"
-import { TransactionType } from "./project-financial-planner/models/transaction-type"
+import {
+  OpenAccountTransactions,
+  TransactionType,
+} from "./project-financial-planner/models/transaction-type"
 import { openLoanAccount } from "./project-financial-planner/loan/open-loan-account"
 import { Expense } from "./project-financial-planner/models/expense"
+import { Dayjs } from "dayjs"
 
 export type IProjectFinancialPlanner = {
   accounts: () => any[]
   addTransactions: (transactions: Transaction[]) => IProjectFinancialPlanner
   transactions: () => Transaction[]
   expenses: () => Expense[]
-  statements: () => {
+  statements: (statementDate: Dayjs) => {
     loans: any[]
   }
 }
@@ -17,11 +21,11 @@ export type IProjectFinancialPlanner = {
 export const ProjectFinancialPlanner = (
   transactions: Transaction[]
 ): IProjectFinancialPlanner => {
-  const openLoanAccountResults = transactions
-    .filter(({ type }) => type === TransactionType.OpenLoanAccount)
+  const openAccountResults = transactions
+    .filter(({ type }) => OpenAccountTransactions.includes(type))
     .map(openLoanAccount)
 
-  const accounts = openLoanAccountResults.map(
+  const accounts = openAccountResults.map(
     (openLoanAccountResult) => openLoanAccountResult.account
   )
 
@@ -30,9 +34,8 @@ export const ProjectFinancialPlanner = (
     addTransactions: (newTransactions: Transaction[]) =>
       ProjectFinancialPlanner([...transactions, ...newTransactions]),
     transactions: () => transactions,
-    expenses: () =>
-      openLoanAccountResults.map(({ expenses }) => expenses).flat(),
-    statements: () => ({
+    expenses: () => openAccountResults.map(({ expenses }) => expenses).flat(),
+    statements: (statementDate: Dayjs) => ({
       loans: accounts.map((loanInfo) => ({
         name: loanInfo.name,
         statements: [

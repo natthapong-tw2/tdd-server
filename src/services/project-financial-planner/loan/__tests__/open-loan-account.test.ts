@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import { openLoanAccount } from "../open-loan-account"
-import { loanAccount, transactionOpenLoanAccount } from "../__mocks__/mocks"
+import { loanAccount, transactionOpenLoanAccount } from "../__mocks__/loan"
 import Big from "big.js"
 import dayjs from "dayjs"
 

@@ -5,11 +5,17 @@ import { Transaction } from "../project-financial-planner/models/transaction"
 import {
   loanAccount,
   transactionOpenLoanAccount,
-} from "../project-financial-planner/loan/__mocks__/mocks"
+} from "../project-financial-planner/loan/__mocks__/loan"
 import { openLoanAccount } from "../project-financial-planner/loan/open-loan-account"
+import dayjs from "dayjs"
+
+import { transactionOpenSavingAccount } from "../project-financial-planner/saving/__mocks__/saving"
 
 describe("ProjectFinancialPanner", () => {
-  const transactions: Transaction[] = [transactionOpenLoanAccount("Co-op")]
+  const transactions: Transaction[] = [
+    transactionOpenLoanAccount("Co-op"),
+    transactionOpenSavingAccount("SCB main"),
+  ]
 
   const projectFinancialPlanner = ProjectFinancialPlanner(transactions)
 
@@ -22,6 +28,7 @@ describe("ProjectFinancialPanner", () => {
       expect(actual.transactions()).toEqual(
         ProjectFinancialPlanner([
           transactionOpenLoanAccount("Co-op"),
+          transactionOpenSavingAccount("SCB main"),
           transactionOpenLoanAccount("Co-op2"),
         ]).transactions()
       )
@@ -46,7 +53,8 @@ describe("ProjectFinancialPanner", () => {
 
   describe("statements", () => {
     it("should be able to init", () => {
-      expect(projectFinancialPlanner.statements()).toEqual({
+      const statementDate = dayjs("2023-12-13")
+      expect(projectFinancialPlanner.statements(statementDate)).toEqual({
         loans: [
           {
             name: "Co-op",
