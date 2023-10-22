@@ -27,6 +27,7 @@ export const ProjectFinancialPlanner = (
   const accounts = transactions
     .filter(({ type }) => type === TransactionType.OpenLoanAccount)
     .map(openLoanAccount)
+    .map((openLoanAccountResult) => openLoanAccountResult.account)
 
   return {
     accounts: () => accounts,
