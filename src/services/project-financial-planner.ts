@@ -5,7 +5,16 @@ import { Transaction } from "./project-financial-planner/transaction"
 import { LoanPaymentPlanType } from "./project-financial-planner/loan/models"
 import { TransactionType } from "./project-financial-planner/transaction-type"
 
-export const ProjectFinancialPlanner = (transactions: Transaction[]) => {
+export type IProjectFinancialPlanner = {
+  accounts: () => any[]
+  monthlyStatements: () => {
+    loans: any[]
+  }
+}
+
+export const ProjectFinancialPlanner = (
+  transactions: Transaction[]
+): IProjectFinancialPlanner => {
   const accounts = transactions
     .filter(({ type }) => type === TransactionType.OpenLoanAccount)
     .map((openAccountTransaction) => ({
@@ -14,10 +23,10 @@ export const ProjectFinancialPlanner = (transactions: Transaction[]) => {
       beginLoanDate: dayjs("2023-01-01"),
       payday: 3,
       loanAmount: Big(100),
-      interestRatePerYear: 5,
+      interestRatePerYear: Big(5),
       paymentPlan: {
         type: LoanPaymentPlanType.FixPrinciple,
-        amountPerMonth: 100,
+        amountPerMonth: Big(100),
       },
     }))
 
@@ -30,8 +39,8 @@ export const ProjectFinancialPlanner = (transactions: Transaction[]) => {
           {
             month: 1,
             loanAmount: {
-              before: 100,
-              after: 0,
+              before: Big(100),
+              after: Big(0),
             },
             interestRate: loanInfo.loanAmount
               .mul(loanInfo.interestRatePerYear)

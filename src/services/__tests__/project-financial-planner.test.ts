@@ -37,10 +37,10 @@ describe("ProjectFinancialPanner", () => {
           beginLoanDate: dayjs("2023-01-01"),
           payday: 3,
           loanAmount: Big(100),
-          interestRatePerYear: 5,
+          interestRatePerYear: Big(5),
           paymentPlan: {
             type: LoanPaymentPlanType.FixPrinciple,
-            amountPerMonth: 100,
+            amountPerMonth: Big(100),
           },
         },
       ])
@@ -57,8 +57,8 @@ describe("ProjectFinancialPanner", () => {
               {
                 month: 1,
                 loanAmount: {
-                  before: 100,
-                  after: 0,
+                  before: Big(100),
+                  after: Big(0),
                 },
                 interestRate: Big(100).mul(5).div(10).div(12),
                 totalPaidInterest: Big(100).mul(5).div(10).div(12),
