@@ -5,11 +5,22 @@ import Big from "big.js"
 import dayjs from "dayjs"
 
 describe("openLoanAccount", () => {
+  it("should throw error when loan target is not equal to loan amount", () => {
+    const transaction = transactionOpenLoanAccount("Co-op")
+    expect(() =>
+      openLoanAccount({
+        ...transaction,
+        targets: [{ ...transaction.targets[0], amount: Big(10) }],
+      })
+    ).toThrow(new Error("Summary of loan target is not equal to loan amount"))
+  })
+
   it("should return initial loan account from transaction", () => {
     const actual = openLoanAccount(transactionOpenLoanAccount("Co-op"))
 
     expect(actual.account).toEqual(loanAccount)
   })
+
   it("should return initial expenses from transaction", () => {
     const actual = openLoanAccount(transactionOpenLoanAccount("Co-op"))
 
